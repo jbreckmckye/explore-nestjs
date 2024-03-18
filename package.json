@@ -1,0 +1,12 @@
+{
+  "name": "explore-nestjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:jbreckmckye/explore-nestjs.git",
+  "author": "jbreckmckye <3148617+jbreckmckye@users.noreply.github.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@nestjs/cli": "^10.3.2",
+    "typescript": "^5.4.2"
+  }
+}
