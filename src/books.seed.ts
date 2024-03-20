@@ -28,7 +28,7 @@ export class BooksSeed {
 
     await this.knex.schema.createTable('loans', table => {
       table.increments('id').primary();
-      table.integer('book').unsigned().notNullable();
+      table.integer('book').unsigned().notNullable().unique();
       table.integer('user').unsigned().notNullable();
 
       table.foreign('book').references('id').inTable('books');

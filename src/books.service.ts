@@ -21,7 +21,7 @@ export class BooksService {
   async authors() {
     return this.knex
       .select()
-      .from('authors')
+      .from('authors');
   }
 
   async book(id: number) {
@@ -33,7 +33,7 @@ export class BooksService {
        ELSE 0
        END
        AS loaned
-    `)
+    `);
 
     return this.knex('books')
       .select(
@@ -42,8 +42,25 @@ export class BooksService {
         isLoaned
       )
       .where('books.id', id)
-      .join('authors', 'books.author', 'authors.id')
-
+      .join('authors', 'books.author', 'authors.id');
   }
 
+  async loans() {
+    return this.knex
+      .select()
+      .from('loans')
+  }
+
+  async returnBook(book: number) {
+    return this.knex('loans')
+      .where('book', book)
+      .delete();
+  }
+
+  async borrow(user: number, book: number) {
+    return this.knex('loans').insert({
+      book,
+      user
+    }, ['id']).onConflict('book').ignore()
+  }
 }

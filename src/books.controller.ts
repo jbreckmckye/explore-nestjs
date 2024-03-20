@@ -1,5 +1,6 @@
-import { Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
+import { LoanDto, ReturnDto } from './loan.dto';
 
 @Controller()
 export class BooksController {
@@ -34,14 +35,27 @@ export class BooksController {
     }
   }
 
-  // @Get('/user/:id')
-  // getUserDetails(@Param('id', ParseIntPipe) id: number) {
-  //   const user = this.booksService.userDetails(id)
-  //   if (!user) {
-  //     throw new HttpException('Not found', HttpStatus.NOT_FOUND)
-  //   } else {
-  //     return user
-  //   }
-  // }
+  @Get('/loans')
+  getLoans() {
+    return this.booksService.loans();
+  }
 
+  @Post('/loan')
+  async borrowBook(
+    @Body() payload: LoanDto
+  ) {
+    const [ inserted ] = await this.booksService.borrow(payload.user, payload.book);
+    if (!inserted) {
+      throw new HttpException('Conflict', HttpStatus.CONFLICT);
+    } else {
+      return inserted
+    }
+  }
+
+  @Post('/return')
+  async returnBook(
+    @Body() payload: ReturnDto
+  ) {
+    return this.booksService.returnBook(payload.book)
+  }
 }
