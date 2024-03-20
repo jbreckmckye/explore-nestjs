@@ -1,18 +1,18 @@
 import { Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
-import { AppService } from './app.service';
+import { BooksService } from './books.service';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class BooksController {
+  constructor(private readonly booksService: BooksService) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.booksService.getHello();
   }
 
   @Get('/book/:id')
   getBookDetails(@Param('id', ParseIntPipe) id: number) {
-    const book = this.appService.bookDetails(id);
+    const book = this.booksService.bookDetails(id);
     if (!book) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     } else {
@@ -22,12 +22,12 @@ export class AppController {
 
   @Get('/books')
   getBooks() {
-    return this.appService.books();
+    return this.booksService.books();
   }
 
   @Get('/user/:id')
   getUserDetails(@Param('id', ParseIntPipe) id: number) {
-    const user = this.appService.userDetails(id)
+    const user = this.booksService.userDetails(id)
     if (!user) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     } else {

@@ -24,7 +24,7 @@ const data = {
 };
 
 @Injectable()
-export class AppService {
+export class BooksService {
   getHello(): string {
     return 'Hello World!';
   }
