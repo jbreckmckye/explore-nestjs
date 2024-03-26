@@ -1,7 +1,12 @@
+import { inspect } from 'node:util';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection } from 'nest-knexjs';
 import { Knex } from 'knex';
-import { inspect } from 'node:util';
+
+/**
+ * Creates an in memory database for testing purposes
+ */
 
 @Injectable()
 export class BooksSeed {

@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
+
 import { BooksService } from './books.service';
 import { LoanDto, ReturnDto } from './loan.dto';
 
@@ -18,7 +19,6 @@ export class BooksController {
 
   @Get('/author/:id')
   getAuthorDetails(@Param('id') id: string) {
-    // Parameters come as strings...
     const idNumber = parseInt(id, 10);
     return this.booksService.author(idNumber);
   }
@@ -44,7 +44,7 @@ export class BooksController {
   async borrowBook(
     @Body() payload: LoanDto
   ) {
-    const [ inserted ] = await this.booksService.borrow(payload.user, payload.book);
+    const inserted = await this.booksService.borrow(payload.user, payload.book);
     if (!inserted) {
       throw new HttpException('Conflict', HttpStatus.CONFLICT);
     } else {

@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 
+/**
+ * Services are a broad category in Nest that cover domain logic and data manipulation
+ */
+
 @Injectable()
 export class BooksService {
   constructor(@InjectConnection() private readonly knex: Knex) {}
@@ -57,10 +61,11 @@ export class BooksService {
       .delete();
   }
 
-  async borrow(user: number, book: number) {
-    return this.knex('loans').insert({
+  async borrow(user: number, book: number): Promise<boolean> {
+    const insertions = await this.knex('loans').insert({
       book,
       user
     }, ['id']).onConflict('book').ignore()
+    return (insertions as unknown[]).length > 0
   }
 }
